@@ -1,25 +1,179 @@
-import logo from './logo.svg';
+import { useState, useEffect, useLayoutEffect, useRef} from 'react';
 import './App.css';
+import Content from './Content';
+import Text from './Text';
+import Todo from './ToDo'
+
+const gifts = [
+  'CPU i9',
+  'RAM 64Gb RGB', 
+  'Akko 3861v2',
+  'SSD 1TB'
+]
+
 
 function App() {
+  const [counter, setCounter] = useState(1);
+  const [info, setInfo] = useState({
+    name: "Nguyễn Văn Sơn",
+    age: 19,
+    address: "Q6, TP.HCM"
+  });
+  const [gift, setGift] = useState();
+  const [name, setName] = useState('');
+  // todoList
+  const storageJobs = JSON.parse(localStorage.getItem('jobs'));
+  const [jobs, setJobs] = useState(storageJobs ?? []);
+  const [job, setJob] = useState('');
+  const [show, setShow] = useState(false);
+  const [count, setCount] = useState(180);
+  const [avt, setAvt] = useState();
+  const [counterr, setCounterr] = useState(0);
+  const [couunt, setCouunt] = useState(60);
+
+  const timerId = useRef();
+
+  const handleStart = () =>{
+    timerId.current = setInterval(() =>{
+      setCouunt(prevState => prevState - 1)
+    }, 1000)
+  }
+
+  const handleStop = () =>{
+    clearInterval(timerId.current)
+  }
+
+
+  useLayoutEffect(() =>{
+    if(counterr > 3){
+      setCounterr(0);
+    }
+  }, [counterr])
+
+  const handleRun = () =>{
+    setCounterr(counterr + 1);
+  }
+
+  useEffect(() => {
+    return () =>{
+      avt && URL.revokeObjectURL(avt.preview);
+    }
+  }, [avt]);
+
+  const handleView = (e) =>{
+    const file = e.target.files[0];
+    file.preview = URL.createObjectURL(file);
+    console.log(file);
+    setAvt(file);
+  }
+  
+
+  useEffect(() => {
+    const timerId = setInterval(() =>{
+      setCount(prevState => prevState - 1);
+    }, 1000)
+
+    return () =>{
+      clearInterval(timerId)
+    }
+  }, [])
+
+  const handleIncrease = () =>{
+    setCounter(counter + (Math.random() * 100 + 1));
+  }
+  
+  const handleInfo = () =>{
+    setInfo({
+      ...info,
+      bio: "Yêu màu hồng ghét sự giả dối ^^!",
+    });
+  }
+
+  const randomGift = () =>{
+    const index = Math.floor(Math.random() * gifts.length);
+    setGift(gifts[index]);
+  }
+
+
+  const handleSubmit = () =>{
+    setJobs(prev => {
+      const newJob = [...prev, job]
+
+      const jsonJobs = JSON.stringify(newJob);
+      localStorage.setItem('jobs', jsonJobs);
+      
+      return newJob;
+    });
+    setJob('');
+  }
+
+
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>{counter}</h1>
+      <p>{JSON.stringify(info)}</p>
+      <button onClick={handleIncrease}>+</button>
+      <button onClick={handleInfo}>+</button>
+
+      <div style={{padding: 32, margin: 40}}>
+        <h1>{gift || 'Chưa có thưởng'}</h1>
+        <button className="btn" onClick={randomGift}>Lấy thưởng</button>
+      </div>
+      {/* one way binding */}
+      <div style={{padding: 32, margin: 40}}>
+        <input value={name} onChange={e => setName(e.target.value)}/>
+        <button className="btn" onClick={() => setName('nguyen van bmdf')}>Change</button>
+      </div>
+
+      {/* TODO List */}
+      <div style={{padding: 34}}>
+        <input value={job} onChange={e => setJob(e.target.value)}/>
+
+        <button className="btn" onClick={handleSubmit}>Add</button>
+
+        <ul>
+          {jobs.map((job, index) => (<li key={index}>{jobs}</li>) 
+  
+          )}
+        </ul>
+        <button className="btn" onClick={() => setShow(!show)}>show</button>
+        {show && <Content />}
+      </div>
+
+      <div style={{padding: 34}}>
+        {/* <h1>{count}</h1> */}
+      </div>
+      <div style={{padding: 34}}>
+        <input
+            type="file"
+            onChange={handleView} 
+        />
+        {avt && (<img src={avt.preview} alt='name' style={{width: "80%"}} />)}
+      </div>
+
+      <div style={{padding: 34}}>
+        <h1>{counterr}</h1>
+        <button onClick={handleRun}>Run</button>
+      </div>
+
+      <div style={{padding: 34}}>
+        <h1>{couunt}</h1>
+        <button onClick={handleStart}>-+</button>
+        <button onClick={handleStop}>!</button>
+      </div>
+
+      <div style={{padding: 34}}>
+        <Text />
+      </div>
+
+      <div style={{padding: 34}}>
+        <Todo />
+      </div>
     </div>
   );
 }
 
 export default App;
+
+
