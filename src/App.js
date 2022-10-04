@@ -1,8 +1,11 @@
-import { useState, useEffect, useLayoutEffect, useRef} from 'react';
+import { useState, useEffect, useLayoutEffect, useRef, useContext, useImperativeHandle} from 'react';
 import './App.css';
 import Content from './Content';
 import Text from './Text';
 import Todo from './ToDo'
+import Context from './Context';
+import Video from './Video';
+import { useStore, actions } from './store';
 
 const gifts = [
   'CPU i9',
@@ -30,6 +33,10 @@ function App() {
   const [avt, setAvt] = useState();
   const [counterr, setCounterr] = useState(0);
   const [couunt, setCouunt] = useState(60);
+
+  const [state, dispatch] = useStore();
+  const {todos, todoInput} = state;
+  console.log('todoInput: ', todoInput)
 
   const timerId = useRef();
 
@@ -107,6 +114,10 @@ function App() {
     setJob('');
   }
 
+  const handleAdd = () =>{
+    dispatch(actions.addTodoInput(todoInput))
+  }
+
 
 
   return (
@@ -169,6 +180,29 @@ function App() {
 
       <div style={{padding: 34}}>
         <Todo />
+      </div>
+
+      <div style={{padding: 34}}>
+        <Context />
+      </div>
+
+      <div style={{padding: 34}}>
+        <input
+          value={todoInput}
+          placeholder="Enter todo ..."
+          onChange={e => {
+            dispatch(actions.setTodoInput(e.target.value));
+          }}
+        />
+        <button onClick={handleAdd} className="btn">Click add</button>
+        {todos.map((todo,index) => (
+          <li key={index}>{todo}</li>
+        ))}
+      </div>
+      <div style={{padding: 34}}>
+        <Video />
+        <button className="btn">Play</button>
+        <button className="btn">Pause</button>
       </div>
     </div>
   );
