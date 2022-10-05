@@ -1,6 +1,7 @@
 import React from 'react'
 import TextFa from './TextFa'
 import {useState, createContext} from 'react';
+import './App.css'
 
 export const themeContext = createContext();
 
@@ -14,8 +15,8 @@ const Context = () => {
 
   return (
     <themeContext.Provider value={theme}>
-      <div style={{padding: 20}}>
-          <button button className="btn" onClick={toggleTheme}>Toggle theme</button>
+      <div style={{padding: 20}} className="style">
+          <button className="btn" onClick={toggleTheme}>Toggle theme</button>
           <TextFa/>
       </div>
     </themeContext.Provider>

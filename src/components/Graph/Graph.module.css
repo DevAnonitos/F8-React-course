@@ -1,0 +1,11 @@
+.P-sup{
+    margin-top: 0.3rem !important;
+    font-size: 0.8rem;
+    color: #fff;
+    background-color: #000;
+    width: 350px;
+    height: 250px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

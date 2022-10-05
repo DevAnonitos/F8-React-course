@@ -19,7 +19,8 @@ const Video = (props, ref) => {
   return (
     <video 
         ref={videoRef}
-        src={ videos01 } 
+        src={ videos01 }
+        controls 
         width={350}
     />
   )

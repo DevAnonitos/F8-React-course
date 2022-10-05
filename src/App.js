@@ -7,6 +7,9 @@ import Context from './Context';
 import Video from './Video';
 import { useStore, actions } from './store';
 
+import Heading from './components/Heading';
+import Graph from './components/Graph'
+
 const gifts = [
   'CPU i9',
   'RAM 64Gb RGB', 
@@ -214,6 +217,10 @@ function App() {
         <Video ref={videoRef} />
         <button className="btn" onClick={handlePlay}>Play</button>
         <button className="btn"onClick={handlePause}>Pause</button>
+      </div>
+      <div style={{padding: 34}}>
+        <Heading />
+        <Graph />
       </div>
     </div>
   );
