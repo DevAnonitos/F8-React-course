@@ -11,7 +11,8 @@ const gifts = [
   'CPU i9',
   'RAM 64Gb RGB', 
   'Akko 3861v2',
-  'SSD 1TB'
+  'SSD 1TB',
+  'Case 2092'
 ]
 
 
@@ -39,6 +40,16 @@ function App() {
   console.log('todoInput: ', todoInput)
 
   const timerId = useRef();
+
+  const videoRef = useRef();
+
+  const handlePlay = () =>{
+    videoRef.current.play();
+  }
+
+  const handlePause = () =>{
+    videoRef.current.pause();
+  }
 
   const handleStart = () =>{
     timerId.current = setInterval(() =>{
@@ -200,9 +211,9 @@ function App() {
         ))}
       </div>
       <div style={{padding: 34}}>
-        <Video />
-        <button className="btn">Play</button>
-        <button className="btn">Pause</button>
+        <Video ref={videoRef} />
+        <button className="btn" onClick={handlePlay}>Play</button>
+        <button className="btn"onClick={handlePause}>Pause</button>
       </div>
     </div>
   );
