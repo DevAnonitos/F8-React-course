@@ -9,6 +9,7 @@ import { useStore, actions } from './store';
 
 import Heading from './components/Heading';
 import Graph from './components/Graph'
+import Button from './components/Button';
 
 const gifts = [
   'CPU i9',
@@ -221,6 +222,7 @@ function App() {
       <div style={{padding: 34}}>
         <Heading />
         <Graph />
+        <Button primary />
       </div>
     </div>
   );
