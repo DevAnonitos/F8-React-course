@@ -5,6 +5,10 @@
     color: #333;
     cursor: pointer;
     border-radius: 5px;
+    &:hover{
+        cursor: pointer;
+        opacity: 0.8;
+    }
 }
 
 .active {

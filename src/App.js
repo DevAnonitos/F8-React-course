@@ -1,5 +1,9 @@
+import { Routes, Route, Link } from 'react-router-dom';
+
 import { useState, useEffect, useLayoutEffect, useRef, useContext, useImperativeHandle} from 'react';
 import './App.css';
+
+
 import Content from './Content';
 import Text from './Text';
 import Todo from './ToDo'
@@ -10,6 +14,10 @@ import { useStore, actions } from './store';
 import Heading from './components/Heading';
 import Graph from './components/Graph'
 import Button from './components/Button';
+
+import Home from './pages/Home'
+import News from './pages/News'
+import Contact from './pages/Contact'
 
 const gifts = [
   'CPU i9',
@@ -223,6 +231,27 @@ function App() {
         <Heading />
         <Graph />
         <Button primary />
+      </div>
+      <div style={{padding: 34}}>
+        <nav>
+          <ul>
+            <li>
+              <Link to="/">Home</Link>
+            </li>
+            <li>
+              <Link to="/news">News</Link>
+            </li>
+            <li>
+              <Link to="/contact">Contact</Link>
+            </li>
+          </ul>
+        </nav>
+
+        <Routes>
+          <Route path='/' element={<Home />} />
+          <Route path='/news' element={<News />} />
+          <Route path='/contact' element={<Contact />} />
+        </Routes>
       </div>
     </div>
   );
